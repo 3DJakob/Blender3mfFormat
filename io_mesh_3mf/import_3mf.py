@@ -703,8 +703,9 @@ class Import3MF(bpy.types.Operator, bpy_extras.io_utils.ImportHelper):
                     material = bpy.data.materials.new(triangle_material.name)
                     material.use_nodes = True
                     principled = bpy_extras.node_shader_utils.PrincipledBSDFWrapper(material, is_readonly=False)
-                    principled.base_color = triangle_material.color[:3]
-                    principled.alpha = triangle_material.color[3]
+                    if triangle_material.color is not None:
+                        principled.base_color = triangle_material.color[:3]
+                        principled.alpha = triangle_material.color[3]
                     self.resource_to_material[triangle_material] = material
                 else:
                     material = self.resource_to_material[triangle_material]
